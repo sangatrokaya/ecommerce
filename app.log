@@ -1,0 +1,2 @@
+[Date 2024-11-27 | Time 19:10:5] :: POST /api/v1/users/login | ::1 | StatusCode: 200 | ResponseDuration: 85 ms
+[Date 2024-11-27 | Time 19:11:15] :: POST /api/v1/users/login | ::1 | StatusCode: 200 | ResponseDuration: 64 ms
