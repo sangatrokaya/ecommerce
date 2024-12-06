@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import createToken from "../utils/token.util.js";
 
 const signUp = async (req, res, next) => {
   try {
@@ -13,6 +14,7 @@ const signUp = async (req, res, next) => {
     let salt = await bcrypt.genSalt(10);
     let hashedPassword = await bcrypt.hash(password, salt);
     let user = await User.create({ ...req.body, password: hashedPassword });
+    createToken(res, user._id);
     res.send({
       message: "User Registered Successfully!",
       user: {
@@ -36,6 +38,7 @@ const login = async (req, res, next) => {
       throw err;
     }
     if (await user.matchPassword(password)) {
+      createToken(res, user._id);
       res.send({ message: "Login Success!" });
     } else {
       let err = new Error("Invalid Password!");
