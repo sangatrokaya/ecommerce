@@ -9,3 +9,4 @@
 [Date 2024-12-6 | Time 20:29:16] :: POST /api/v1/users/signup | ::1 | StatusCode: 200 | ResponseDuration: 100 ms
 [Date 2024-12-6 | Time 21:31:47] :: POST /api/v1/users/login | ::1 | StatusCode: 200 | ResponseDuration: 67 ms
 [Date 2024-12-6 | Time 21:35:43] :: POST /api/v1/users/signup | ::1 | StatusCode: 200 | ResponseDuration: 67 ms
+[Date 2024-12-6 | Time 21:58:30] :: POST /api/v1/users/login | ::1 | StatusCode: 200 | ResponseDuration: 87 ms
