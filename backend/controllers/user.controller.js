@@ -3,6 +3,9 @@ import bcrypt from "bcryptjs";
 import createToken from "../utils/token.util.js";
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 
+// @desc register new user
+// @route /api/v1/users/signup
+// @access public
 const signUp = asyncHandler(async (req, res, next) => {
   let { email, password } = req.body;
   let userExists = await User.findOne({ email });
@@ -25,6 +28,9 @@ const signUp = asyncHandler(async (req, res, next) => {
   });
 });
 
+// @desc login user
+// @route /api/v1/users/login
+// @access public
 const login = asyncHandler(async (req, res, next) => {
   let { email, password } = req.body;
   let user = await User.findOne({ email });
@@ -43,9 +49,20 @@ const login = asyncHandler(async (req, res, next) => {
   }
 });
 
+// @desc logout user
+// @route /api/v1/users/logout
+// @access private
 const logout = asyncHandler((req, res, next) => {
   res.clearCookie("jwt");
   res.send({ message: "Logout Successful!" });
 });
 
-export { signUp, login, logout };
+// @desc get all the users
+// @route /api/v1/users
+// @access private (logged in + admin user only)
+const getUsers = asyncHandler(async (req, res) => {
+  let users = await User.find({}).select("-password");
+  res.send(users);
+});
+
+export { signUp, login, logout, getUsers };
