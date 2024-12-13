@@ -2,6 +2,8 @@ import express from "express";
 import notFoundHandler from "./middlewares/notFound.Middleware.js";
 import errorHandler from "./middlewares/error.middleware.js";
 import logger from "./middlewares/logger.middleware.js";
+import cookieParser from "cookie-parser";
+
 // process.load_env
 
 // routers import
@@ -12,6 +14,7 @@ const app = express();
 
 //middlewares
 app.use(express.json());
+app.use(cookieParser());
 app.use(logger);
 
 // routes
