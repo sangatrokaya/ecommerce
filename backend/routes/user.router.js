@@ -5,13 +5,13 @@ import {
   logout,
   signUp,
 } from "../controllers/user.controller.js";
-import checkAuth from "../middlewares/auth.middleware.js";
+import { checkAuth, checkAdmin } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 router.post("/signup", signUp);
 router.post("/login", login);
 router.post("/logout", logout);
-router.get("/", checkAuth, getUsers);
+router.get("/", checkAuth, checkAdmin, getUsers);
 
 export default router;

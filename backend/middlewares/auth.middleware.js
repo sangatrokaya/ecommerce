@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import asyncHandler from "./asyncHandler.middleware.js";
 import User from "../models/user.model.js";
+
 const checkAuth = asyncHandler(async (req, res, next) => {
   let token = req.cookies.jwt;
   if (!token) {
@@ -25,4 +26,14 @@ const checkAuth = asyncHandler(async (req, res, next) => {
   }
 });
 
-export default checkAuth;
+const checkAdmin = asyncHandler(async (req, res, next) => {
+  let isAdmin = req.user?.isAdmin;
+  if (isAdmin) next();
+  else {
+    let err = new Error("You are not authorized to perform this operation!");
+    err.status = 403;
+    throw err;
+  }
+});
+
+export { checkAuth, checkAdmin };
