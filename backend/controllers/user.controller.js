@@ -65,4 +65,11 @@ const getUsers = asyncHandler(async (req, res) => {
   res.send(users);
 });
 
-export { signUp, login, logout, getUsers };
+// @desc get the logged in user profile
+// @route /api/v1/users/profile
+// @access private (only logged in user)
+const getUserProfile = asyncHandler(async (req, res) => {
+  res.send(req.user);
+});
+
+export { signUp, login, logout, getUsers, getUserProfile };
