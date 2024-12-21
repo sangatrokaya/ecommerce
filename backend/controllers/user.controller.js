@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import createToken from "../utils/token.util.js";
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
+import apiError from "../utils/apiError.util.js";
 
 // @desc register new user
 // @route /api/v1/users/signup
@@ -72,4 +73,24 @@ const getUserProfile = asyncHandler(async (req, res) => {
   res.send(req.user);
 });
 
-export { signUp, login, logout, getUsers, getUserProfile };
+// @desc update the user profile who is logged in
+// @route /api/v1/users/profile
+// @access private (only logged in user)
+const updateUserProfile = asyncHandler(async (req, res) => {
+  let id = req.user._id;
+  let user = await User.findById(id);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      let salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(req.body.password, salt);
+    }
+    let updatedUser = await user.save();
+    res.send({ message: "User updated successfully!", user: updatedUser });
+  } else {
+    throw new apiError(404, "user not found!");
+  }
+});
+
+export { signUp, login, logout, getUsers, getUserProfile, updateUserProfile };
