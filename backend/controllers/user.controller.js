@@ -93,4 +93,46 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { signUp, login, logout, getUsers, getUserProfile, updateUserProfile };
+// @desc update the user profile by admin
+// @route /api/v1/users/:id
+// @access private (only admin user)
+const updateUserByAdmin = asyncHandler(async (req, res) => {
+  let id = req.params.id;
+  let user = await User.findById(id);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.isAdmin = Boolean(req.body.isAdmin);
+    let updatedUser = await user.save();
+    res.send({ message: "user updated successfully!", user: updatedUser });
+  } else {
+    throw new apiError(404, "user not found!");
+  }
+});
+
+// @desc delete user profile by admin but should not be able to delete admin profile
+// @route /api/v1/users/:id
+// @access private (only admin user)
+const deleteUserByAdmin = asyncHandler(async (req, res) => {
+  let id = req.params.id;
+  let user = await User.findById(id);
+  if (!user) {
+    throw new apiError(404, "User not found!");
+  }
+  if (user.isAdmin) {
+    throw new apiError(400, "You cannot delete an admin user!");
+  }
+  await User.findByIdAndDelete(id);
+  res.send({ message: "User deleted successfully!" });
+});
+
+export {
+  signUp,
+  login,
+  logout,
+  getUsers,
+  getUserProfile,
+  updateUserProfile,
+  updateUserByAdmin,
+  deleteUserByAdmin,
+};
