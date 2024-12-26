@@ -30,6 +30,9 @@ const addProduct = asyncHandler(async (req, res) => {
   res.send({ message: "Product created successfully!", product });
 });
 
+// @desc update product by admin
+// @route /api/v1/products/:id
+// @access private/admin
 const updateProduct = asyncHandler(async (req, res) => {
   let id = req.params.id;
   let product = await Product.findById(id);
@@ -50,4 +53,23 @@ const updateProduct = asyncHandler(async (req, res) => {
   });
 });
 
-export { getProducts, getProductById, addProduct, updateProduct };
+// @desc delete product by admin
+// @route /api/v1/products/:id
+// @access private/admin
+const deleteProduct = asyncHandler(async (req, res) => {
+  let id = req.params.id;
+  let product = await Product.findById(id);
+  if (!product) {
+    throw new apiError(404, "Product Not Found!");
+  }
+  await Product.findByIdAndDelete(id);
+  res.send({ message: "Product deleted successfully!" });
+});
+
+export {
+  getProducts,
+  getProductById,
+  addProduct,
+  updateProduct,
+  deleteProduct,
+};
