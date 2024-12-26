@@ -75,6 +75,23 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.send(products);
 });
 
+const addUserReview = asyncHandler(async (req, res) => {
+  let id = req.params.id;
+  let product = await Product.findById(id);
+  if (!product) {
+    throw new apiError(404, "Product Not Found!");
+  }
+  let { rating, comment } = req.body;
+  product.reviews.push({
+    name: req.user.name,
+    rating,
+    comment,
+    user: req.user._id,
+  });
+  await product.save();
+  res.send({ message: "Review added successfully!" });
+});
+
 export {
   getProducts,
   getProductById,
@@ -82,4 +99,5 @@ export {
   updateProduct,
   deleteProduct,
   getTopProducts,
+  addUserReview,
 };
