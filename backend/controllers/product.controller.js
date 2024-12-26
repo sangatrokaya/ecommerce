@@ -66,10 +66,20 @@ const deleteProduct = asyncHandler(async (req, res) => {
   res.send({ message: "Product deleted successfully!" });
 });
 
+// @desc get top rated products
+// @route /api/v1/products/topproducts/:limit
+// @access public
+const getTopProducts = asyncHandler(async (req, res) => {
+  let limit = Number(req.params.limit);
+  let products = await Product.find({}).sort({ rating: -1 }).limit(limit);
+  res.send(products);
+});
+
 export {
   getProducts,
   getProductById,
   addProduct,
   updateProduct,
   deleteProduct,
+  getTopProducts,
 };

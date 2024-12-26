@@ -4,6 +4,7 @@ import {
   deleteProduct,
   getProductById,
   getProducts,
+  getTopProducts,
   updateProduct,
 } from "../controllers/product.controller.js";
 import { checkAdmin, checkAuth } from "../middlewares/auth.middleware.js";
@@ -19,5 +20,6 @@ router
 // router.get("/:id", getProductById);
 // router.put("/:id", checkAuth, checkAdmin, updateProduct);
 // router.delete("/:id", checkAuth, checkAdmin, deleteProduct);
+router.get("/topproducts/:limit", getTopProducts);
 
 export default router;
