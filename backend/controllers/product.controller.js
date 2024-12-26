@@ -29,4 +29,25 @@ const addProduct = asyncHandler(async (req, res) => {
   let product = await Product.create({ ...req.body, user: req.user._id });
   res.send({ message: "Product created successfully!", product });
 });
-export { getProducts, getProductById, addProduct };
+
+const updateProduct = asyncHandler(async (req, res) => {
+  let id = req.params.id;
+  let product = await Product.findById(id);
+  if (!product) {
+    throw new apiError(404, "Product not found!");
+  }
+  product.name = req.body.name || product.name;
+  product.description = req.body.description || product.description;
+  product.category = req.body.category || product.category;
+  product.brand = req.body.brand || product.brand;
+  product.price = req.body.price || product.price;
+  product.countInStock = req.body.countInStock || product.countInStock;
+  product.image = req.body.image || product.image;
+  let updatedProduct = await product.save();
+  res.send({
+    message: "Product updated successfully!",
+    product: updatedProduct,
+  });
+});
+
+export { getProducts, getProductById, addProduct, updateProduct };
