@@ -76,19 +76,48 @@ const getTopProducts = asyncHandler(async (req, res) => {
 });
 
 const addUserReview = asyncHandler(async (req, res) => {
-  let id = req.params.id;
-  let product = await Product.findById(id);
+  let productId = req.params.id;
+  let { rating, comment } = req.body;
+
+  // Check if the current user is an admin
+  if (req.user.isAdmin) {
+    throw new apiError(403, "Admins are not allowed to add reviews.");
+  }
+
+  // Fetch the product by id
+  let product = await Product.findById(productId);
   if (!product) {
     throw new apiError(404, "Product Not Found!");
   }
-  let { rating, comment } = req.body;
+
+  // Check if the user has already reviewed the product
+  const existingReviewIndex = product.reviews.findIndex(
+    (review) => review.user.toString() === req.user._id.toString()
+  );
+
+  if (existingReviewIndex !== -1) {
+    // Update the existing review
+    product.reviews[existingReviewIndex].rating = rating;
+    product.reviews[existingReviewIndex].comment = comment;
+  }
+  // Add a new review if the user had not review before
   product.reviews.push({
     name: req.user.name,
     rating,
     comment,
     user: req.user._id,
   });
+  // Update the number of reviews
+  product.numReviews = product.reviews.length;
+
+  // Recalculate the product's average rating
+  product.rating =
+    product.reviews.reduce((acc, review) => acc + review.rating, 0) /
+    product.reviews.length;
+
+  // Save the product
   await product.save();
+
   res.send({ message: "Review added successfully!" });
 });
 
