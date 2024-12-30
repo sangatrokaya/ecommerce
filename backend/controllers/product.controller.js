@@ -91,22 +91,23 @@ const addUserReview = asyncHandler(async (req, res) => {
   }
 
   // Check if the user has already reviewed the product
-  const existingReviewIndex = product.reviews.findIndex(
+  const existingReview = product.reviews.find(
     (review) => review.user.toString() === req.user._id.toString()
   );
 
-  if (existingReviewIndex !== -1) {
+  if (existingReview) {
     // Update the existing review
-    product.reviews[existingReviewIndex].rating = rating;
-    product.reviews[existingReviewIndex].comment = comment;
+    existingReview.rating = rating;
+    existingReview.comment = comment;
+  } else {
+    // Add a new review if the user had not review before
+    product.reviews.push({
+      name: req.user.name,
+      rating,
+      comment,
+      user: req.user._id,
+    });
   }
-  // Add a new review if the user had not review before
-  product.reviews.push({
-    name: req.user.name,
-    rating,
-    comment,
-    user: req.user._id,
-  });
   // Update the number of reviews
   product.numReviews = product.reviews.length;
 
