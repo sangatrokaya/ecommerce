@@ -3,12 +3,16 @@ import bcrypt from "bcryptjs";
 import createToken from "../utils/token.util.js";
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 import apiError from "../utils/apiError.util.js";
+import { isEmail } from "../utils/validator.util.js";
 
 // @desc register new user
 // @route /api/v1/users/signup
 // @access public
 const signUp = asyncHandler(async (req, res, next) => {
   let { email, password } = req.body;
+  if (!isEmail(email)) {
+    throw new apiError(400, "Invalid Email!");
+  }
   let userExists = await User.findOne({ email });
   if (userExists) {
     let err = new Error(`User with email ${email} already exists!`);
