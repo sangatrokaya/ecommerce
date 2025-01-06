@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import createToken from "../utils/token.util.js";
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 import apiError from "../utils/apiError.util.js";
-import { isEmail } from "../utils/validator.util.js";
+import { isEmail, isStrongPassword } from "../utils/validator.util.js";
 
 // @desc register new user
 // @route /api/v1/users/signup
@@ -13,12 +13,16 @@ const signUp = asyncHandler(async (req, res, next) => {
   if (!isEmail(email)) {
     throw new apiError(400, "Invalid Email!");
   }
+  if (!isStrongPassword(password)) {
+    throw new apiError(400, "Invalid Password pattern!");
+  }
   let userExists = await User.findOne({ email });
   if (userExists) {
     let err = new Error(`User with email ${email} already exists!`);
     err.status = 400; // 400 refers to bad request
     throw err;
   }
+
   let salt = await bcrypt.genSalt(10);
   let hashedPassword = await bcrypt.hash(password, salt);
   let user = await User.create({ ...req.body, password: hashedPassword });

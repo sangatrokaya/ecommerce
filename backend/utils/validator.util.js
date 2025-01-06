@@ -4,4 +4,10 @@ function isEmail(email) {
   return emailPattern.test(email);
 }
 
-export { isEmail };
+function isStrongPassword(password) {
+  const passwordPattern =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+  return passwordPattern.test(password);
+}
+
+export { isEmail, isStrongPassword };
