@@ -7,3 +7,15 @@ body,
   display: flex;
   flex-direction: column;
 }
+
+.rating {
+  margin: 0.5rem;
+}
+
+.rating svg {
+  color: rgb(242, 194, 0);
+}
+
+.rating-text {
+  margin: 0.5rem;
+}
