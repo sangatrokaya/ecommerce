@@ -19,3 +19,10 @@ body,
 .rating-text {
   margin: 0.5rem;
 }
+
+.product-title {
+  line-height: 1.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
