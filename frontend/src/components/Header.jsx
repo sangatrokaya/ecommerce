@@ -1,5 +1,6 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { FaCartShopping, FaUser } from "react-icons/fa6";
+import { NavLink } from "react-router-dom";
 import Logo from "../assets/techvaultlogo.png";
 
 const Header = () => {
@@ -14,25 +15,24 @@ const Header = () => {
           collapseOnSelect
         >
           <Container>
-            <Navbar.Brand>
-              {" "}
+            <NavLink to="/" className="navbar-brand">
               <img
                 src={Logo}
                 style={{ width: 50, height: 50 }}
                 alt="Brand Logo"
-              />{" "}
-            </Navbar.Brand>
+              />
+            </NavLink>
             <Navbar.Toggle aria-controls="Navbar" />
             <Navbar.Collapse id="Navbar" className="ms-auto">
               <Nav className="ms-auto">
-                <Nav.Link>
+                <NavLink to="/cart" className="nav-link">
                   <FaCartShopping />
                   Cart
-                </Nav.Link>
-                <Nav.Link>
+                </NavLink>
+                <NavLink to="/signin" className="nav-link">
                   <FaUser />
                   Sign In
-                </Nav.Link>
+                </NavLink>
               </Nav>
             </Navbar.Collapse>
           </Container>
