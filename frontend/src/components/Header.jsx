@@ -11,7 +11,6 @@ const Header = () => {
           variant="dark"
           bg="dark"
           expand="md"
-          fixed="top"
           collapseOnSelect
         >
           <Container>
