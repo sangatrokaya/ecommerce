@@ -4,7 +4,7 @@ import Rating from "./Rating";
 const Product = ({ product }) => {
   return (
     <>
-      <Card className="my-3 p-3">
+      <Card className="my-3 p-3 shadow rounded">
         <Card.Img src={product.image} variant="top" />
         <Card.Body>
           <Card.Text as="div" className="product-title">

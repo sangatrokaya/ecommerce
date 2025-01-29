@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <>
       <footer
-        className="bg-dark text-light py-5"
+        className="bg-dark text-light py-5 shadow-lg"
         style={{
           display: "flex",
           flexDirection: "column",

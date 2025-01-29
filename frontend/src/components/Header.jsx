@@ -6,13 +6,20 @@ const Header = () => {
   return (
     <>
       <header>
-        <Navbar variant="dark" bg="dark" expand="md" collapseOnSelect>
+        <Navbar
+          className="shadow"
+          variant="dark"
+          bg="dark"
+          expand="md"
+          fixed="top"
+          collapseOnSelect
+        >
           <Container>
             <Navbar.Brand>
               {" "}
               <img
                 src={Logo}
-                style={{ width: 40, height: 40 }}
+                style={{ width: 50, height: 50 }}
                 alt="Brand Logo"
               />{" "}
             </Navbar.Brand>
