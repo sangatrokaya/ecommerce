@@ -1,6 +1,7 @@
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
 import { useEffect, useState } from "react";
+// import { useLoaderData } from "react-router-dom";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -13,12 +14,14 @@ const HomePage = () => {
         console.log("Error occurred while fetching api!", err.message)
       );
   }, []);
+
+  // const products = useLoaderData();
   return (
     <>
       <h1>Latest Products</h1>
       <Row>
         {products.map((product) => (
-          <Col sm={12} md={6} lg={4} xl={3} key={product.name}>
+          <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
             <Product product={product} />
           </Col>
         ))}
@@ -27,4 +30,10 @@ const HomePage = () => {
   );
 };
 
+/* export const dataLoader = async() => {
+  let resp = await fetch('/api/v1/products');
+  let data = await resp.json();
+  return data;
+}
+ */
 export default HomePage;

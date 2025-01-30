@@ -2,19 +2,25 @@ import { Button, Col, Image, ListGroup, Row } from "react-bootstrap";
 import axios from "axios";
 import Rating from "../components/Rating";
 import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 
 const ProductPage = () => {
+  const { id } = useParams();
   const [product, setProduct] = useState({});
   useEffect(() => {
     axios
-      .get("/api/v1/products/677512e4b85ea21277e91de3")
+      .get(`/api/v1/products/${id}`)
       .then((res) => setProduct(res.data))
       .catch((err) => console.log(err.message));
   }, []);
 
   return (
     <>
-      <Row>
+      <Link to="/">
+        <IoArrowBackCircleOutline size={40} color="black" />
+      </Link>
+      <Row className="my-2">
         <Col md={5}>
           <Image src={product.image} fluid />
         </Col>
