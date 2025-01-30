@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    fetch("api/v1/products")
+    const url = "/api/v1/products";
+    fetch(url)
       .then((resp) => resp.json())
       .then((data) => setProducts(data))
       .catch((err) =>
