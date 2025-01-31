@@ -8,7 +8,10 @@ const Product = ({ product }) => {
       <Card className="my-3 p-3 shadow rounded">
         <Card.Img src={product.image} variant="top" />
         <Card.Body>
-          <Link to={`/product/${product._id}`}>
+          <Link
+            to={`/product/${product._id}`}
+            className="text-decoration-none text-dark"
+          >
             <Card.Text as="div" className="product-title">
               <strong>{product.name}</strong>
             </Card.Text>
