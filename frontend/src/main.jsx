@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
 import {
   RouterProvider,
   createBrowserRouter,
@@ -13,6 +14,7 @@ import ProductPage from "./pages/ProductPage.jsx";
 // import {dataLoader} from './pages/HomePage.jsx';
 import CartPage from "./pages/CartPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import { store } from "./store.js";
 
 /* // Setting up react routes
 const router = createBrowserRouter([
@@ -53,5 +55,7 @@ const router = createBrowserRouter(
 );
 
 createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );
