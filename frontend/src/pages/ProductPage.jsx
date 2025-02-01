@@ -4,16 +4,23 @@ import Rating from "../components/Rating";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "../slices/cartSlice";
 
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
+  const diapatch = useDispatch();
   useEffect(() => {
     axios
       .get(`/api/v1/products/${id}`)
       .then((res) => setProduct(res.data))
       .catch((err) => console.log(err.message));
   }, []);
+
+  const addToCartHandler = (item) => {
+    diapatch(addItem(item));
+  };
 
   return (
     <>
@@ -61,7 +68,11 @@ const ProductPage = () => {
               </Row>
             </ListGroup.Item>
             <ListGroup.Item>
-              <Button variant="secondary" disabled={product.countInStock == 0}>
+              <Button
+                variant="secondary"
+                disabled={product.countInStock == 0}
+                onClick={() => addToCartHandler(product)}
+              >
                 Add to Cart
               </Button>
             </ListGroup.Item>
