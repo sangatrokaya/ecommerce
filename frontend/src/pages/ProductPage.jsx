@@ -1,4 +1,4 @@
-import { Button, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Col, Image, ListGroup, Row, Form } from "react-bootstrap";
 import axios from "axios";
 import Rating from "../components/Rating";
 import { useEffect, useState } from "react";
@@ -9,8 +9,10 @@ import { addItem } from "../slices/cartSlice";
 
 const ProductPage = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState(1);
+  const [qty, setQty] = useState({});
   const diapatch = useDispatch();
+
   useEffect(() => {
     axios
       .get(`/api/v1/products/${id}`)
@@ -69,10 +71,23 @@ const ProductPage = () => {
               </Row>
             </ListGroup.Item>
             <ListGroup.Item>
+              <Form.Control
+                as="select"
+                value={qty}
+                onChange={(e) => setQty(e.target.value)}
+              >
+                {[...Array(product.countInStock).keys()].map((key) => (
+                  <option key={key + 1}>{key + 1}</option>
+                ))}
+              </Form.Control>
+            </ListGroup.Item>
+            <ListGroup.Item>
               <Button
                 variant="secondary"
                 disabled={product.countInStock == 0}
-                onClick={() => addToCartHandler(product)}
+                onClick={() =>
+                  addToCartHandler({ ...product, qty: Number(qty) })
+                }
               >
                 Add to Cart
               </Button>
