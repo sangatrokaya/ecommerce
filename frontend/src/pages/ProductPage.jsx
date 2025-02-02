@@ -24,8 +24,9 @@ const ProductPage = () => {
 
   return (
     <>
-      <Link to="/">
-        <IoArrowBackCircleOutline size={40} color="black" />
+      <Link to="/" className="text-decoration-none">
+        <IoArrowBackCircleOutline size={20} color="black" />
+        <span className="text-dark">Back</span>
       </Link>
       <Row className="my-2">
         <Col md={5}>
