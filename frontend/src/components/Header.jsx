@@ -31,9 +31,11 @@ const Header = () => {
                 <NavLink to="/cart" className="nav-link">
                   <FaCartShopping />
                   Cart{" "}
-                  <Badge bg="success" pill>
-                    {cartItems.length}
-                  </Badge>
+                  {cartItems.length > 0 && (
+                    <Badge bg="success" pill>
+                      {cartItems.length}
+                    </Badge>
+                  )}
                 </NavLink>
                 <NavLink to="/signin" className="nav-link">
                   <FaUser />
