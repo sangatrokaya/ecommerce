@@ -2,7 +2,7 @@ import { Button, Col, Image, ListGroup, Row, Form } from "react-bootstrap";
 import axios from "axios";
 import Rating from "../components/Rating";
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../slices/cartSlice";
@@ -10,8 +10,9 @@ import { addItem } from "../slices/cartSlice";
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(1);
-  const [qty, setQty] = useState({});
+  const [qty, setQty] = useState(1);
   const diapatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -22,6 +23,7 @@ const ProductPage = () => {
 
   const addToCartHandler = (item) => {
     diapatch(addItem(item));
+    navigate("/cart");
   };
 
   return (
@@ -74,10 +76,10 @@ const ProductPage = () => {
               <Form.Control
                 as="select"
                 value={qty}
-                onChange={(e) => setQty(e.target.value)}
+                onChange={(e) => setQty(Number(e.target.value))}
               >
-                {[...Array(product.countInStock).keys()].map((key) => (
-                  <option key={key + 1}>{key + 1}</option>
+                {[...Array(product.countInStock).keys()].map((x) => (
+                  <option key={x + 1}>{x + 1}</option>
                 ))}
               </Form.Control>
             </ListGroup.Item>
