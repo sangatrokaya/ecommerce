@@ -29,13 +29,13 @@ const CartPage = () => {
   return (
     <>
       {cartItems.length == 0 ? (
-        <Message>
+        <Message variant="info">
           <strong>Your Cart is Empty!</strong>
           <p>You might be looking for some cool gadgets!</p>
           <Link
             to="/"
             style={{
-              color: "#0dcaf0",
+              color: "green",
               textDecoration: "none",
               fontSize: "1.1rem",
             }}
