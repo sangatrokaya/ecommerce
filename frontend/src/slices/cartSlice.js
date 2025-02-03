@@ -23,7 +23,10 @@ const cartSlice = createSlice({
       // OR
       //   state.cartItems.push(action.payload);
     },
-    removeItem: (state, action) => {},
+    removeItem: (state, action) => {
+      let itemId = action.payload;
+      state.cartItems = state.cartItems.filter((item) => item._id != itemId);
+    },
   },
 });
 

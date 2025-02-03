@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Row, Col, ListGroup, Form, Image } from "react-bootstrap";
+import { Row, Col, ListGroup, Form, Image, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { addItem } from "../slices/cartSlice";
+import { addItem, removeItem } from "../slices/cartSlice";
+import { FaTrash } from "react-icons/fa6";
 
 const CartPage = () => {
   const { cartItems } = useSelector((state) => state.cart);
@@ -10,6 +11,9 @@ const CartPage = () => {
   const changeCartQty = (item, qty) => {
     // setQty(qty);
     dispatch(addItem({ ...item, qty }));
+  };
+  const removeCartItem = (id) => {
+    dispatch(removeItem(id));
   };
   return (
     <>
@@ -30,7 +34,7 @@ const CartPage = () => {
               </Col>
               <Col md={2}>
                 {" "}
-                <span>${item.price * item.qty}</span>
+                <span>${(item.price * item.qty).toFixed(2)}</span>
               </Col>
               <Col md={2}>
                 {" "}
@@ -43,6 +47,14 @@ const CartPage = () => {
                     <option key={x + 1}>{x + 1}</option>
                   ))}
                 </Form.Control>
+              </Col>
+              <Col md={2}>
+                <Button
+                  variant="light"
+                  onClick={() => removeCartItem(item._id)}
+                >
+                  <FaTrash />
+                </Button>
               </Col>
             </Row>
           </ListGroup.Item>
