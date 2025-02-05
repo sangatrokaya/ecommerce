@@ -144,9 +144,12 @@ const CartPage = () => {
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <Button size="sm" className="btn-success">
+                    <Link
+                      to="/signin?redirect=/shipping"
+                      className="btn btn-sm btn-success"
+                    >
                       Checkout
-                    </Button>
+                    </Link>
                   </ListGroup.Item>
                 </ListGroup>
               </Card.Body>
