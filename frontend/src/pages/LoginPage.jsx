@@ -1,20 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FormContainer from "../components/FormContainer";
 import { Card, FormGroup, Form, Button, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { useLoginMutation } from "../slices/userApiSlice";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLoginMutation, useSignupMutation } from "../slices/userApiSlice";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "../slices/authSlice";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
+  const { search } = useLocation();
+  const searchParam = new URLSearchParams(search);
+  const redirect = searchParam.get("redirect") || "/";
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [userInfo, redirect, navigate]);
+
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
       let resp = await login({ email, password }).unwrap();
-      console.log(resp);
+      dispatch(setCredentials(resp.user));
+      toast.success(resp.message);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
+      toast.error(
+        err?.data?.error || err?.error || "Invalid Email or Password!"
+      );
     }
   };
 
