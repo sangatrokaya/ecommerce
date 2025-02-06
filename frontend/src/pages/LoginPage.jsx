@@ -2,14 +2,20 @@ import { useState } from "react";
 import FormContainer from "../components/FormContainer";
 import { Card, FormGroup, Form, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useLoginMutation } from "../slices/userApiSlice";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [login, { isLoading }] = useLoginMutation();
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+    try {
+      let resp = await login({ email, password }).unwrap();
+      console.log(resp);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
