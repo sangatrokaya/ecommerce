@@ -1,11 +1,19 @@
-import { Navbar, Container, Nav, Badge } from "react-bootstrap";
+import { Navbar, Container, Nav, Badge, NavDropdown } from "react-bootstrap";
 import { FaCartShopping, FaUser } from "react-icons/fa6";
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Logo from "../assets/techvaultlogo.png";
+import { logout } from "../slices/authSlice";
 
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logoutHandler = () => {
+    dispatch(logout());
+    navigate("/signin");
+  };
   console.log(cartItems);
   return (
     <>
@@ -37,10 +45,20 @@ const Header = () => {
                     </Badge>
                   )}
                 </NavLink>
-                <NavLink to="/signin" className="nav-link">
-                  <FaUser />
-                  Sign In
-                </NavLink>
+                {userInfo ? (
+                  <NavDropdown title={userInfo.name} id="profile-dropdown">
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={logoutHandler}>
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                ) : (
+                  <NavLink to="/signin" className="nav-link">
+                    <FaUser />
+                    Sign In
+                  </NavLink>
+                )}
               </Nav>
             </Navbar.Collapse>
           </Container>
