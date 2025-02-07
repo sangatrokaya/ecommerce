@@ -4,15 +4,24 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Logo from "../assets/techvaultlogo.png";
 import { logout } from "../slices/authSlice";
+import { useUserLogoutMutation } from "../slices/userApiSlice";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
+  const [userLogout, { isLoading }] = useUserLogoutMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const logoutHandler = () => {
-    dispatch(logout());
-    navigate("/signin");
+  const logoutHandler = async () => {
+    try {
+      let resp = await userLogout().unwrap();
+      toast.success(resp.message);
+      dispatch(logout());
+      navigate("/signin");
+    } catch (err) {
+      toast.error(err?.data?.error);
+    }
   };
   console.log(cartItems);
   return (
