@@ -24,7 +24,7 @@ const ShippingPage = () => {
     <div
       style={{
         background: "linear-gradient(135deg, #f5f7fa, #c3cfe2)",
-        minHeight: "100vh",
+        minHeight: "80vh",
         padding: "20px",
       }}
     >
