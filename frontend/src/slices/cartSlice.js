@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ShippingPage from "../pages/ShippingPage";
+import { updateCart } from "../utils/cartUtils";
 
 // const initialState = {
 //   cartItems: localStorage.getItem("cart")
@@ -33,21 +34,12 @@ const cartSlice = createSlice({
         ]; /* Recommended way */
       // OR
       //   state.cartItems.push(action.payload);
-      state.totalPrice = state.cartItems
-        .reduce((acc, item) => acc + item.qty * item.price, 0)
-        .toFixed(2);
-      state.shippingCharge = state.totalPrice >= 100 ? 0 : 5;
-      localStorage.setItem("cart", JSON.stringify(state));
+      return updateCart(state);
     },
     removeItem: (state, action) => {
       let itemId = action.payload;
       state.cartItems = state.cartItems.filter((item) => item._id != itemId);
-      state.totalPrice = state.cartItems
-        .reduce((acc, item) => acc + item.qty * item.price, 0)
-        .toFixed(2);
-      state.shippingCharge = state.totalPrice >= 100 ? 0 : 5;
-      localStorage.setItem("cart", JSON.stringify(state));
-      localStorage.setItem("cart", JSON.stringify(state));
+      return updateCart(state);
     },
     saveShippingAddress: (state, action) => {
       state.shippingAddress = action.payload;

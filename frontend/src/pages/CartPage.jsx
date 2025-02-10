@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import Message from "../components/Message";
 
 const CartPage = () => {
-  const { cartItems, shippingCharge, totalPrice } = useSelector(
+  const { cartItems, shippingCharge, totalPrice, itemPrice } = useSelector(
     (state) => state.cart
   );
   // const [qty, setQty] = useState(1);
@@ -113,7 +113,7 @@ const CartPage = () => {
                   <ListGroup.Item>
                     <Row>
                       <Col>Total Price</Col>
-                      <Col>${totalPrice}</Col>
+                      <Col>${itemPrice}</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
@@ -128,9 +128,7 @@ const CartPage = () => {
                         <strong>Grand Total</strong>
                       </Col>
                       <Col>
-                        <strong>
-                          ${(Number(totalPrice) + shippingCharge).toFixed(2)}
-                        </strong>
+                        <strong>${totalPrice}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
