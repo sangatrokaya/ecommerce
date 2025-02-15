@@ -4,6 +4,7 @@ import { Form, Button, Card } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { saveShippingAddress } from "../slices/cartSlice";
 import { FaUser, FaPhone, FaMapMarkerAlt, FaCity } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const ShippingPage = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -14,10 +15,12 @@ const ShippingPage = () => {
   const [phone, setPhone] = useState(shippingAddress.phone || "");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(saveShippingAddress({ recipient, address, city, phone }));
+    navigate("/placeorder");
   };
 
   return (

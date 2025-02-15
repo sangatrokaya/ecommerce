@@ -18,6 +18,7 @@ import { store } from "./store.js";
 import ShippingPage from "./pages/ShippingPage.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import PlaceOrderPage from "./pages/PlaceOrderPage.jsx";
 
 /* // Setting up react routes
 const router = createBrowserRouter([
@@ -56,6 +57,7 @@ const router = createBrowserRouter(
       <Route path="" element={<PrivateRoute />}>
         <Route path="shipping" element={<ShippingPage />} />
         <Route path="profile" element={<ProfilePage />} />
+        <Route path="placeorder" element={<PlaceOrderPage />} />
       </Route>
     </Route>
   )
