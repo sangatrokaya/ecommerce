@@ -1,11 +1,28 @@
 import { Row, Col, Image, ListGroup, Button, Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAddOrderMutation } from "../slices/orderSlice";
 
 function PlaceOrderPage() {
   const { cartItems, shippingAddress, itemPrice, shippingCharge, totalPrice } =
     useSelector((state) => state.cart);
 
+  const [addOrder, { isLoading }] = useAddOrderMutation();
+  const placeOrderHandler = async () => {
+    try {
+      let resp = await addOrder({
+        orderItems: cartItems,
+        shippingAddress,
+        itemPrice,
+        shippingCharge,
+        totalPrice,
+      }).unwrap();
+      toast.success(resp.message);
+    } catch (err) {
+      toast.error(err?.data?.error);
+    }
+  };
   return (
     <Row style={{ padding: "20px", backgroundColor: "#f8f9fa" }}>
       <Col md={8}>
@@ -97,7 +114,7 @@ function PlaceOrderPage() {
           <ListGroup variant="flush">
             <ListGroup.Item
               style={{
-                backgroundColor: "dark",
+                backgroundColor: "black",
                 color: "#fff",
                 borderRadius: "8px 8px 0 0",
                 padding: "15px",
@@ -120,6 +137,7 @@ function PlaceOrderPage() {
             >
               <Row>
                 <Col>Shipping</Col>
+
                 <Col>${shippingCharge}</Col>
               </Row>
             </ListGroup.Item>
@@ -143,6 +161,7 @@ function PlaceOrderPage() {
                   borderRadius: "8px",
                   width: "100%",
                 }}
+                onClick={placeOrderHandler}
               >
                 Place Order
               </Button>
