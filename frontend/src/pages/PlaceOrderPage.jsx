@@ -1,6 +1,6 @@
 import { Row, Col, Image, ListGroup, Button, Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAddOrderMutation } from "../slices/orderSlice";
 
@@ -9,6 +9,7 @@ function PlaceOrderPage() {
     useSelector((state) => state.cart);
 
   const [addOrder, { isLoading }] = useAddOrderMutation();
+  const navigate = useNavigate();
   const placeOrderHandler = async () => {
     try {
       let resp = await addOrder({
@@ -18,6 +19,7 @@ function PlaceOrderPage() {
         shippingCharge,
         totalPrice,
       }).unwrap();
+      navigate("/order/" + resp.orderId);
       toast.success(resp.message);
     } catch (err) {
       toast.error(err?.data?.error);
