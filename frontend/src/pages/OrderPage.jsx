@@ -1,40 +1,69 @@
-import { ListGroup, Row, Col, Card, Image } from "react-bootstrap";
+import {
+  ListGroup,
+  Row,
+  Col,
+  Card,
+  Image,
+  Button,
+  Badge,
+} from "react-bootstrap";
 import Message from "../components/Message";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useGetOrderByIdQuery } from "../slices/orderSlice";
+import { orderStatusColor } from "../utils/OrderStatusColors";
 
 function OrderPage() {
   let { id } = useParams();
   let { data: order, isLoading, error } = useGetOrderByIdQuery(id);
 
   return isLoading ? (
-    <h1>Loading...</h1>
+    <h1 style={{ textAlign: "center", marginTop: "50px", color: "#333" }}>
+      Loading...
+    </h1>
   ) : error ? (
-    <Messsage variant="danger">{error?.data?.error}</Messsage>
+    <Message variant="danger">{error?.data?.error}</Message>
   ) : (
-    <Row style={{ padding: "20px", backgroundColor: "#f8f9fa" }}>
+    <Row
+      style={{
+        padding: "20px",
+        background: "linear-gradient(to right, #f9f9f9, #eef1f5)",
+      }}
+    >
       <Col md={8}>
         <ListGroup variant="flush">
           <ListGroup.Item
             style={{
               backgroundColor: "#fff",
-              borderRadius: "8px",
-              padding: "20px",
+              borderRadius: "12px",
+              padding: "25px",
               marginBottom: "20px",
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              transition: "transform 0.2s, box-shadow 0.2s",
+              cursor: "pointer",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-5px)";
+              e.currentTarget.style.boxShadow =
+                "0 6px 12px rgba(0, 0, 0, 0.15)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
             }}
           >
             <h3
               style={{
-                fontSize: "24px",
+                fontSize: "26px",
                 fontWeight: "bold",
                 color: "#333",
-                marginBottom: "15px",
+                marginBottom: "20px",
+                borderBottom: "2px solid #eee",
+                paddingBottom: "10px",
               }}
             >
-              Shipping
+              Shipping Details
             </h3>
-            <p style={{ fontSize: "16px", color: "#555", margin: "0" }}>
+            <p style={{ fontSize: "16px", color: "#555", lineHeight: "1.6" }}>
               <strong>Name: </strong>
               {order.shippingAddress.recipient} | {order.shippingAddress.phone}
               <br />
@@ -47,13 +76,140 @@ function OrderPage() {
               <Message variant="danger">Not Delivered!</Message>
             )}
           </ListGroup.Item>
+          <ListGroup.Item
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: "12px",
+              padding: "25px",
+              marginBottom: "20px",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-5px)";
+              e.currentTarget.style.boxShadow =
+                "0 6px 12px rgba(0, 0, 0, 0.15)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+            }}
+          >
+            <h3
+              style={{
+                fontSize: "26px",
+                fontWeight: "bold",
+                marginBottom: "20px",
+                borderBottom: "2px solid #eee",
+                paddingBottom: "10px",
+              }}
+            >
+              Payment Details
+            </h3>
+            <p style={{ fontSize: "16px", lineHeight: "1.6" }}>
+              <strong>Mode: </strong>COD
+            </p>
+            {order.isPaid ? (
+              <Message>Paid ${order.totalPrice}</Message>
+            ) : (
+              <Message variant="danger">Not Paid!</Message>
+            )}
+          </ListGroup.Item>
+          <ListGroup.Item
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: "12px",
+              padding: "25px",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-5px)";
+              e.currentTarget.style.boxShadow =
+                "0 6px 12px rgba(0, 0, 0, 0.15)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+            }}
+          >
+            <h3
+              style={{
+                fontSize: "26px",
+                fontWeight: "bold",
+                marginBottom: "20px",
+                borderBottom: "2px solid #eee",
+                paddingBottom: "10px",
+              }}
+            >
+              Order Items
+            </h3>
+            {order.orderItems.map((item) => (
+              <ListGroup.Item
+                key={item._id}
+                style={{
+                  padding: "15px 5px",
+                  borderBottom: "1px solid #eee",
+                  transition: "background-color 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "#f8f9fa";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "#fff";
+                }}
+              >
+                <Row className="align-items-center">
+                  <Col md={2}>
+                    <Image
+                      src={item.image}
+                      fluid
+                      rounded
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                        borderRadius: "8px",
+                        boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                      }}
+                    />
+                  </Col>
+                  <Col>
+                    <Link
+                      to={`/product/${item._id}`}
+                      style={{
+                        fontSize: "18px",
+                        color: "#333",
+                        textDecoration: "none",
+                      }}
+                    >
+                      <strong>{item.name}</strong>
+                    </Link>
+                  </Col>
+                  <Col>
+                    <strong style={{ fontSize: "16px", color: "#28a745" }}>
+                      {item.qty} X {item.price} = $
+                      {(item.qty * item.price).toFixed(2)}
+                    </strong>
+                  </Col>
+                </Row>
+              </ListGroup.Item>
+            ))}
+          </ListGroup.Item>
         </ListGroup>
       </Col>
-      {/* <Col md={4}>
+      <Col md={4}>
         <Card
           style={{
-            borderRadius: "8px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            borderRadius: "12px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            overflow: "hidden",
+            border: "none",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "translateY(-5px)";
+            e.currentTarget.style.boxShadow = "0 6px 12px rgba(0, 0, 0, 0.15)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "translateY(0)";
+            e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
           }}
         >
           <ListGroup variant="flush">
@@ -61,59 +217,75 @@ function OrderPage() {
               style={{
                 backgroundColor: "black",
                 color: "#fff",
-                borderRadius: "8px 8px 0 0",
-                padding: "15px",
+                borderRadius: "12px 12px 0 0",
+                padding: "20px",
+                textAlign: "center",
               }}
             >
-              <h2 style={{ fontSize: "24px", fontWeight: "bold", margin: "0" }}>
+              <h2 style={{ fontSize: "26px", fontWeight: "bold", margin: "0" }}>
                 Order Summary
               </h2>
             </ListGroup.Item>
             <ListGroup.Item
-              style={{ padding: "15px", fontSize: "16px", color: "#555" }}
+              style={{ padding: "20px", fontSize: "16px", color: "#555" }}
             >
               <Row>
                 <Col>Item</Col>
-                <Col>${itemPrice}</Col>
+                <Col>${order.itemPrice}</Col>
               </Row>
             </ListGroup.Item>
             <ListGroup.Item
-              style={{ padding: "15px", fontSize: "16px", color: "#555" }}
+              style={{ padding: "20px", fontSize: "16px", color: "#555" }}
             >
               <Row>
                 <Col>Shipping</Col>
 
-                <Col>${shippingCharge}</Col>
+                <Col>${order.shippingCharge}</Col>
               </Row>
             </ListGroup.Item>
             <ListGroup.Item
-              style={{ padding: "15px", fontSize: "16px", color: "#555" }}
+              style={{
+                padding: "20px",
+                fontSize: "16px",
+                color: "#555",
+                fontWeight: "bold",
+                color: "black",
+              }}
             >
               {" "}
               <Row>
                 <Col>Total</Col>
-                <Col>${totalPrice}</Col>
+                <Col>${order.totalPrice}</Col>
               </Row>
             </ListGroup.Item>
 
-            <ListGroup.Item style={{ padding: "15px" }}>
-              <Button
-                variant="dark"
+            <ListGroup.Item
+              style={{
+                padding: "20px",
+              }}
+            >
+              <Row
                 style={{
+                  padding: "15px",
                   fontSize: "18px",
                   fontWeight: "bold",
-                  padding: "10px",
-                  borderRadius: "8px",
                   width: "100%",
+                  backgroundColor: "#2c3e50",
+                  color: "white",
+                  borderRadius: "8px",
                 }}
-                onClick={placeOrderHandler}
               >
-                Place Order
-              </Button>
+                <Col>Status</Col>
+                <Col>
+                  <Badge bg={orderStatusColor[order.status]}>
+                    {order.status}
+                  </Badge>
+                </Col>
+              </Row>
             </ListGroup.Item>
           </ListGroup>
         </Card>
-      </Col> */}
+      </Col>
     </Row>
   );
 }
