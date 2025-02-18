@@ -30,7 +30,7 @@ const CartPage = () => {
 
   return (
     <>
-      {cartItems.length == 0 ? (
+      {cartItems?.length == 0 ? (
         <Message variant="info">
           <strong>Your Cart is Empty!</strong>
           <p>You might be looking for some cool gadgets!</p>

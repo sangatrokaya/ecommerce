@@ -247,7 +247,6 @@ function OrderPage() {
               style={{
                 padding: "20px",
                 fontSize: "16px",
-                color: "#555",
                 fontWeight: "bold",
                 color: "black",
               }}
