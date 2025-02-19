@@ -19,6 +19,7 @@ const orderSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${ORDER_URL}/myorders`,
       }),
+      keepUnusedDataFor: 5,
     }),
   }),
 });
