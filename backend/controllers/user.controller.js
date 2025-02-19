@@ -102,7 +102,14 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       user.password = await bcrypt.hash(req.body.password, salt);
     }
     let updatedUser = await user.save();
-    res.send({ message: "User updated successfully!", user: updatedUser });
+    res.send({
+      message: "User Profile Updated Successfully!",
+      user: {
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+      },
+    });
   } else {
     throw new apiError(404, "user not found!");
   }

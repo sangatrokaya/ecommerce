@@ -1,15 +1,39 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
+import { useUpdateUserProfileMutation } from "../slices/userApiSlice";
+import { toast } from "react-toastify";
+import { setCredentials } from "../slices/authSlice";
+import { useGetMyOrdersQuery } from "../slices/orderSlice";
 
 const ProfilePage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
+  const [updateUserProfile, { isLoading: profileUpdateLoading }] =
+    useUpdateUserProfileMutation();
+  const {
+    data: orders,
+    isLoading: ordersLoading,
+    error,
+  } = useGetMyOrdersQuery();
   const updateProfileHandler = async (e) => {
     e.preventDefault();
+    try {
+      if (password != confirmPassword) {
+        toast.error("Password didn't match!");
+      } else {
+        let resp = await updateUserProfile({ name, email, password }).unwrap();
+        dispatch(setCredentials(resp.user));
+        toast.success(resp.message);
+      }
+    } catch (err) {
+      toast.error(err?.data?.error);
+    }
   };
 
   // Setting logged in user and email visible in the form
