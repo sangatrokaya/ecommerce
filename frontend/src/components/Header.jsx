@@ -74,6 +74,17 @@ const Header = () => {
                     Sign In
                   </NavLink>
                 )}
+                {userInfo && userInfo.isAdmin && (
+                  <NavDropdown title="admin" id="admin-routes">
+                    <NavDropdown.Item
+                      onClick={() => {
+                        navigate("/admin/orders");
+                      }}
+                    >
+                      Orders
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                )}
               </Nav>
             </Navbar.Collapse>
           </Container>

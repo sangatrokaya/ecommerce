@@ -21,6 +21,7 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import PlaceOrderPage from "./pages/PlaceOrderPage.jsx";
 import OrderPage from "./pages/Orderpage.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
+import OrdersPage from "./pages/admin/OrdersPage.jsx";
 
 /* // Setting up react routes
 const router = createBrowserRouter([
@@ -62,7 +63,9 @@ const router = createBrowserRouter(
         <Route path="placeorder" element={<PlaceOrderPage />} />
         <Route path="order/:id" element={<OrderPage />} />
       </Route>
-      <Route path="" element={<AdminRoute />}></Route>
+      <Route path="" element={<AdminRoute />}>
+        <Route path="admin/orders" element={<OrdersPage />} />
+      </Route>
     </Route>
   )
 );
