@@ -20,6 +20,7 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import PlaceOrderPage from "./pages/PlaceOrderPage.jsx";
 import OrderPage from "./pages/Orderpage.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
 
 /* // Setting up react routes
 const router = createBrowserRouter([
@@ -61,6 +62,7 @@ const router = createBrowserRouter(
         <Route path="placeorder" element={<PlaceOrderPage />} />
         <Route path="order/:id" element={<OrderPage />} />
       </Route>
+      <Route path="" element={<AdminRoute />}></Route>
     </Route>
   )
 );
