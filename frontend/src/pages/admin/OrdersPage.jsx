@@ -115,29 +115,64 @@ const OrdersPage = () => {
                   (e.currentTarget.style.backgroundColor = "transparent")
                 }
               >
-                <td style={cellStyle}>{order._id}</td>
-                <td style={cellStyle}>{order.user.name}</td>
-                <td style={cellStyle}>{order.createdAt.substring(0, 10)}</td>
-                <td style={cellStyle}>${order.totalPrice}</td>
-                <td style={cellStyle}>
+                <td
+                  style={{
+                    padding: "12px",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
+                  {order._id}
+                </td>
+                <td
+                  style={{
+                    padding: "12px",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
+                  {order.user.name}
+                </td>
+                <td
+                  style={{
+                    padding: "12px",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
+                  {order.createdAt.substring(0, 10)}
+                </td>
+                <td
+                  style={{
+                    padding: "12px",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
+                  ${order.totalPrice}
+                </td>
+                <td
+                  style={{
+                    padding: "12px",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
                   {order.isPaid ? (
                     order.deliveredAt.substring(0, 10)
                   ) : (
                     <FaTimes style={{ color: "red" }} />
                   )}
                 </td>
-                <td style={cellStyle}>
+                <td
+                  style={{
+                    padding: "12px",
+                    borderBottom: "1px solid #dee2e6",
+                  }}
+                >
                   {order.isDelivered ? (
-                    <span style={deliveredStyle}>
-                      {order.deliveredAt.substring(0, 10)}
-                    </span>
+                    order.deliveredAt.substring(0, 10)
                   ) : (
                     <FaTimes style={{ color: "red" }} />
                   )}
                 </td>
                 <td
                   style={{
-                    ...cellStyle,
                     textAlign: "center",
                   }}
                 >
@@ -166,29 +201,4 @@ const OrdersPage = () => {
   );
 };
 
-// Reusable styles
-const cellStyle = {
-  padding: "12px",
-  textAlign: "center",
-  fontSize: "15px",
-  borderBottom: "1px solid #dee2e6",
-};
-
-const paidStyle = {
-  backgroundColor: "#d4edda",
-  color: "#155724",
-  padding: "5px 8px",
-  borderRadius: "5px",
-  fontSize: "14px",
-  fontWeight: "bold",
-};
-
-const deliveredStyle = {
-  backgroundColor: "#cce5ff",
-  color: "#004085",
-  padding: "5px 8px",
-  borderRadius: "5px",
-  fontSize: "14px",
-  fontWeight: "bold",
-};
 export default OrdersPage;
