@@ -6,15 +6,21 @@ import {
   Image,
   Button,
   Badge,
+  Form,
 } from "react-bootstrap";
 import Message from "../components/Message";
 import { useParams, Link } from "react-router-dom";
 import { useGetOrderByIdQuery } from "../slices/orderSlice";
 import { orderStatusColor } from "../utils/OrderStatusColors";
+import { useSelector } from "react-redux";
+import { FaEdit } from "react-icons/fa";
+import { useState } from "react";
 
 function OrderPage() {
+  const [isEdit, setIsEdit] = useState(false);
   let { id } = useParams();
   let { data: order, isLoading, error } = useGetOrderByIdQuery(id);
+  const { userInfo } = useSelector((state) => state.auth);
 
   return isLoading ? (
     <h1 style={{ textAlign: "center", marginTop: "50px", color: "#333" }}>
@@ -275,11 +281,25 @@ function OrderPage() {
                 }}
               >
                 <Col>Status</Col>
-                <Col>
-                  <Badge bg={orderStatusColor[order.status]}>
-                    {order.status}
-                  </Badge>
+                <Col md={6}>
+                  {isEdit ? (
+                    <Form.Control as="select">
+                      <option>Pending</option>
+                      <option>In Progress</option>
+                      <option>Cancelled</option>
+                      <option>Delivered</option>
+                    </Form.Control>
+                  ) : (
+                    <Badge bg={orderStatusColor[order.status]}>
+                      {order.status}
+                    </Badge>
+                  )}
                 </Col>
+                {userInfo && userInfo.isAdmin && (
+                  <Col>
+                    <FaEdit onClick={() => setIsEdit(true)} />
+                  </Col>
+                )}
               </Row>
             </ListGroup.Item>
           </ListGroup>
