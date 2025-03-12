@@ -10,17 +10,35 @@ import {
 } from "react-bootstrap";
 import Message from "../components/Message";
 import { useParams, Link } from "react-router-dom";
-import { useGetOrderByIdQuery } from "../slices/orderSlice";
+import {
+  useGetOrderByIdQuery,
+  useUpdateOrderStatusMutation,
+} from "../slices/orderSlice";
 import { orderStatusColor } from "../utils/OrderStatusColors";
 import { useSelector } from "react-redux";
 import { FaEdit } from "react-icons/fa";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 function OrderPage() {
   const [isEdit, setIsEdit] = useState(false);
   let { id } = useParams();
-  let { data: order, isLoading, error } = useGetOrderByIdQuery(id);
+  let { data: order, isLoading, refetch, error } = useGetOrderByIdQuery(id);
+  const [updateOrderStatus, { isLoading: updateLoading }] =
+    useUpdateOrderStatusMutation();
+
   const { userInfo } = useSelector((state) => state.auth);
+
+  const updateOrderStatusHandler = async (id, status) => {
+    try {
+      let resp = await updateOrderStatus({ id, status }).unwrap();
+      refetch();
+      setIsEdit(false);
+      toast.success(resp.message);
+    } catch (err) {
+      toast.error(err?.data?.error);
+    }
+  };
 
   return isLoading ? (
     <h1 style={{ textAlign: "center", marginTop: "50px", color: "#333" }}>
@@ -283,11 +301,16 @@ function OrderPage() {
                 <Col>Status</Col>
                 <Col md={6}>
                   {isEdit ? (
-                    <Form.Control as="select">
-                      <option>Pending</option>
-                      <option>In Progress</option>
-                      <option>Cancelled</option>
-                      <option>Delivered</option>
+                    <Form.Control
+                      as="select"
+                      onChange={(e) =>
+                        updateOrderStatusHandler(order._id, e.target.value)
+                      }
+                    >
+                      <option>pending</option>
+                      <option>in progress</option>
+                      <option>cancelled</option>
+                      <option>delivered</option>
                     </Form.Control>
                   ) : (
                     <Badge bg={orderStatusColor[order.status]}>
@@ -295,7 +318,7 @@ function OrderPage() {
                     </Badge>
                   )}
                 </Col>
-                {userInfo && userInfo.isAdmin && (
+                {userInfo && userInfo.isAdmin && !order.isDelivered && (
                   <Col>
                     <FaEdit onClick={() => setIsEdit(true)} />
                   </Col>

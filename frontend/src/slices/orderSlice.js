@@ -26,6 +26,13 @@ const orderSlice = apiSlice.injectEndpoints({
         url: ORDER_URL,
       }),
     }),
+    updateOrderStatus: builder.mutation({
+      query: (data) => ({
+        url: `${ORDER_URL}/${data.id}/updatestatus`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -34,4 +41,5 @@ export const {
   useGetOrderByIdQuery,
   useGetMyOrdersQuery,
   useGetAllOrdersQuery,
+  useUpdateOrderStatusMutation,
 } = orderSlice;

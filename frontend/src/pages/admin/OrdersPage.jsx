@@ -24,7 +24,9 @@ const OrdersPage = () => {
       {isLoading ? (
         <h1 style={{ textAlign: "center", color: "#666" }}>Loading...</h1>
       ) : error ? (
-        <Message variant="danger">{error.data.error}</Message>
+        <Message variant="danger">
+          {error?.data?.error || "An Error Occurred!"}
+        </Message>
       ) : (
         <Table
           responsive
