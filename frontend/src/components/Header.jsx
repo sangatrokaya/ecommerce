@@ -83,6 +83,13 @@ const Header = () => {
                     >
                       Orders
                     </NavDropdown.Item>
+                    <NavDropdown.Item
+                      onClick={() => {
+                        navigate("/admin/products");
+                      }}
+                    >
+                      Products
+                    </NavDropdown.Item>
                   </NavDropdown>
                 )}
               </Nav>
