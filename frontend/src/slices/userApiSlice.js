@@ -23,6 +23,12 @@ const userApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    getUsers: builder.query({
+      query: () => ({
+        url: USER_URL,
+      }),
+      keepUnusedDataFor: 30,
+    }),
     updateUserProfile: builder.mutation({
       query: (data) => ({
         url: `${USER_URL}/profile`,
@@ -37,5 +43,6 @@ export const {
   useLoginMutation,
   useSignupMutation,
   useUserLogoutMutation,
+  useGetUsersQuery,
   useUpdateUserProfileMutation,
 } = userApiSlice;
