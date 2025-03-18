@@ -24,8 +24,6 @@ const UserListPage = () => {
               <th>Id</th>
               <th>Name</th>
               <th>Email</th>
-              <th>Address</th>
-              <th>Phone</th>
               <th></th>
             </tr>
           </thead>
