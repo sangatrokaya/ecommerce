@@ -1,3 +1,4 @@
+import { addProduct } from "../../../backend/controllers/product.controller";
 import { PRODUCT_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
 
@@ -7,6 +8,7 @@ const productSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: PRODUCT_URL,
       }),
+      providesTags: ["Product"] /* Assign Product tag to cache the data */,
       keepUnusedDataFor: 30,
     }),
     getProductById: builder.query({
@@ -15,7 +17,20 @@ const productSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 30,
     }),
+    addProduct: builder.mutation({
+      query: () => ({
+        url: PRODUCT_URL,
+        method: "POST",
+      }),
+      invalidatesTags: [
+        "Product",
+      ] /* Invalidates the Product tag which results in the refetch of data */,
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useGetProductByIdQuery } = productSlice;
+export const {
+  useGetProductsQuery,
+  useGetProductByIdQuery,
+  useAddProductMutation,
+} = productSlice;
