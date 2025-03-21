@@ -15,6 +15,9 @@ const productSlice = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `${PRODUCT_URL}/${id}`,
       }),
+      providesTags: (result, error, id) => [
+        { type: "Product", id },
+      ] /* Provide a tag for this specific product */,
       keepUnusedDataFor: 30,
     }),
     addProduct: builder.mutation({
@@ -26,6 +29,20 @@ const productSlice = apiSlice.injectEndpoints({
         "Product",
       ] /* Invalidates the Product tag which results in the refetch of data */,
     }),
+    updateProduct: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCT_URL}/${data._id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: (result, error, arg) => {
+        console.log(
+          "Invalidating Product tag for ID: ",
+          arg._id
+        ); /* Log the ID being invalidate */
+        return [{ type: "Product", id: arg._id }];
+      },
+    }),
   }),
 });
 
@@ -33,4 +50,5 @@ export const {
   useGetProductsQuery,
   useGetProductByIdQuery,
   useAddProductMutation,
+  useUpdateProductMutation,
 } = productSlice;

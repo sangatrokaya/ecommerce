@@ -24,6 +24,7 @@ import AdminRoute from "./components/AdminRoute.jsx";
 import OrdersPage from "./pages/admin/OrdersPage.jsx";
 import ProductsListPage from "./pages/admin/ProductsListPage.jsx";
 import UserListPage from "./pages/admin/UserListPage.jsx";
+import ProductEditPage from "./pages/admin/ProductEditPage.jsx";
 
 /* // Setting up react routes
 const router = createBrowserRouter([
@@ -68,6 +69,7 @@ const router = createBrowserRouter(
       <Route path="" element={<AdminRoute />}>
         <Route path="admin/orders" element={<OrdersPage />} />
         <Route path="admin/products" element={<ProductsListPage />} />
+        <Route path="admin/product/:id/edit" element={<ProductEditPage />} />
         <Route path="admin/users" element={<UserListPage />} />
       </Route>
     </Route>

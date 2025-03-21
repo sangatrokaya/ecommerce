@@ -8,6 +8,7 @@ import { FaEdit } from "react-icons/fa";
 import Message from "../../components/Message";
 import { FaTrash } from "react-icons/fa6";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const ProductsListPage = () => {
   const { data: products, isLoading, error } = useGetProductsQuery();
@@ -62,7 +63,12 @@ const ProductsListPage = () => {
                 <td>{product.category}</td>
                 <td>{product.countInStock}</td>
                 <td>
-                  <Button size="sm" variant="light">
+                  <Button
+                    as={Link}
+                    size="sm"
+                    variant="light"
+                    to={`/admin/product/${product._id}/edit`}
+                  >
                     <FaEdit />
                   </Button>
                   <Button size="sm" variant="danger" className="ms-2">
