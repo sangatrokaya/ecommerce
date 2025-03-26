@@ -1,6 +1,7 @@
 import React from "react";
 import {
   useAddProductMutation,
+  useDeleteProductMutation,
   useGetProductsQuery,
 } from "../../slices/productSlice";
 import { Row, Col, Button, Table } from "react-bootstrap";
@@ -13,11 +14,22 @@ import { Link } from "react-router-dom";
 const ProductsListPage = () => {
   const { data: products, isLoading, error } = useGetProductsQuery();
   const [addProduct, { isLoading: productLoading }] = useAddProductMutation();
+  const [deleteProduct, { isLoading: deleteLoading }] =
+    useDeleteProductMutation();
 
   // Function to handle the creation of new product by admin
   const addProductHandler = async () => {
     try {
       let resp = await addProduct().unwrap();
+      toast.success(resp.message);
+    } catch (err) {
+      toast.error(err.data.error);
+    }
+  };
+
+  const deleteProductHandler = async (id) => {
+    try {
+      let resp = await deleteProduct(id).unwrap();
       toast.success(resp.message);
     } catch (err) {
       toast.error(err.data.error);
@@ -71,7 +83,12 @@ const ProductsListPage = () => {
                   >
                     <FaEdit />
                   </Button>
-                  <Button size="sm" variant="danger" className="ms-2">
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    className="ms-2"
+                    onClick={() => deleteProductHandler(product._id)}
+                  >
                     <FaTrash style={{ color: "white" }} />
                   </Button>
                 </td>
