@@ -1,5 +1,5 @@
 import { addProduct } from "../../../backend/controllers/product.controller";
-import { PRODUCT_URL } from "../constants";
+import { PRODUCT_URL, UPLOAD_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
 
 const productSlice = apiSlice.injectEndpoints({
@@ -43,6 +43,13 @@ const productSlice = apiSlice.injectEndpoints({
         return [{ type: "Product", id: arg._id }];
       },
     }),
+    uploadProductImage: builder.mutation({
+      query: (data) => ({
+        url: UPLOAD_URL,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -51,4 +58,5 @@ export const {
   useGetProductByIdQuery,
   useAddProductMutation,
   useUpdateProductMutation,
+  useUploadProductImageMutation,
 } = productSlice;

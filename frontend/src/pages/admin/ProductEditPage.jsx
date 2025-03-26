@@ -5,6 +5,7 @@ import FormContainer from "../../components/FormContainer";
 import {
   useGetProductByIdQuery,
   useUpdateProductMutation,
+  useUploadProductImageMutation,
 } from "../../slices/productSlice";
 import { toast } from "react-toastify";
 
@@ -13,6 +14,7 @@ const ProductEditPage = () => {
   const [description, setDescription] = useState("");
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
+  const [image, setImage] = useState(null);
   const [price, setPrice] = useState(0);
   const [countInStock, setCountInStock] = useState(0);
   const { id } = useParams();
@@ -27,6 +29,9 @@ const ProductEditPage = () => {
 
   const [updateProduct, { isLoading: updateLoading }] =
     useUpdateProductMutation();
+
+  const [uploadProductImage, { isLoading: imageLoading }] =
+    useUploadProductImageMutation();
 
   useEffect(() => {
     if (product) {
@@ -47,6 +52,7 @@ const ProductEditPage = () => {
         name,
         brand,
         category,
+        image,
         description,
         price,
         countInStock,
@@ -57,6 +63,20 @@ const ProductEditPage = () => {
       toast.error(err.data.error);
     }
   };
+
+  const uploadImageHandler = async (e) => {
+    // console.log(e.target.files);
+    try {
+      let formData = new FormData();
+      formData.append("image", e.target.files[0]);
+      let resp = await uploadProductImage(formData).unwrap();
+      setImage(resp.path);
+      toast.success(resp.message);
+    } catch (err) {
+      toast.error(err.data.error);
+    }
+  };
+
   return (
     <>
       <FormContainer>
@@ -85,6 +105,10 @@ const ProductEditPage = () => {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             />
+          </Form.Group>
+          <Form.Group controlId="image" className="my-2">
+            <Form.Label>Image</Form.Label>
+            <Form.Control type="file" onChange={uploadImageHandler} />
           </Form.Group>
           <Form.Group controlId="price" className="my-2">
             <Form.Label>Price</Form.Label>
