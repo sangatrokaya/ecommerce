@@ -28,11 +28,13 @@ const ProductsListPage = () => {
   };
 
   const deleteProductHandler = async (id) => {
-    try {
-      let resp = await deleteProduct(id).unwrap();
-      toast.success(resp.message);
-    } catch (err) {
-      toast.error(err.data.error);
+    if (window.confirm("Are you sure you want to delete the product?")) {
+      try {
+        let resp = await deleteProduct(id).unwrap();
+        toast.success(resp.message);
+      } catch (err) {
+        toast.error(err.data.error);
+      }
     }
   };
 
