@@ -108,6 +108,7 @@ const addUserReview = asyncHandler(async (req, res) => {
     // Update the existing review
     existingReview.rating = rating;
     existingReview.comment = comment;
+    throw new apiError(400, "Already Reviewed!");
   } else {
     // Add a new review if the user had not review before
     product.reviews.push({
@@ -121,9 +122,11 @@ const addUserReview = asyncHandler(async (req, res) => {
   product.numReviews = product.reviews.length;
 
   // Recalculate the product's average rating
-  product.rating =
-    product.reviews.reduce((acc, review) => acc + review.rating, 0) /
-    product.reviews.length;
+  let totalRating = product.reviews.reduce(
+    (acc, review) => acc + review.rating,
+    0
+  );
+  product.rating = (totalRating / product.reviews.length).toFixed(2);
 
   // Save the product
   await product.save();
