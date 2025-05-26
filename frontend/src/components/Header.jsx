@@ -6,6 +6,7 @@ import Logo from "../assets/techvaultlogo.png";
 import { logout } from "../slices/authSlice";
 import { useUserLogoutMutation } from "../slices/userApiSlice";
 import { toast } from "react-toastify";
+import SearchBox from "./SearchBox";
 
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
@@ -45,6 +46,7 @@ const Header = () => {
             <Navbar.Toggle aria-controls="Navbar" />
             <Navbar.Collapse id="Navbar" className="ms-auto">
               <Nav className="ms-auto">
+                <SearchBox />
                 <NavLink to="/cart" className="nav-link">
                   <FaCartShopping />
                   Cart{" "}
