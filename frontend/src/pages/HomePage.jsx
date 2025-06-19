@@ -5,6 +5,7 @@ import { useLoaderData, useParams } from "react-router-dom";
 import { useGetProductsQuery } from "../slices/productSlice";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
 
 const HomePage = () => {
   /*   const [products, setProducts] = useState([]);
@@ -28,6 +29,7 @@ const HomePage = () => {
   console.log(error);
   return (
     <>
+      <ProductCarousel />
       <h1>Latest Products</h1>
       {isLoading ? (
         <h1>Loading...</h1>
