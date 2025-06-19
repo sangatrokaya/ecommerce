@@ -13,6 +13,7 @@ import { checkAdmin, checkAuth } from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
 router.route("/").get(getProducts).post(checkAuth, checkAdmin, addProduct);
+router.get("/topproducts", getTopProducts);
 router
   .route("/:id")
   .get(getProductById)
@@ -20,8 +21,6 @@ router
   .delete(checkAuth, checkAdmin, deleteProduct);
 // router.get("/:id", getProductById);
 // router.put("/:id", checkAuth, checkAdmin, updateProduct);
-// router.delete("/:id", checkAuth, checkAdmin, deleteProduct);
-router.get("/topproducts/:limit", getTopProducts);
 router.put("/:id/addreview", checkAuth, addUserReview);
 
 export default router;

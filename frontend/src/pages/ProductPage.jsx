@@ -151,7 +151,7 @@ const ProductPage = () => {
                 <Message>No Reviews Yet!</Message>
               )}
               <h2 className="my-4">Add Review</h2>
-              {userInfo ? (
+              {userInfo && !userInfo.isAdmin ? (
                 <Form onSubmit={addReviewHandler}>
                   <Form.Group controlId="rating" className="my-3">
                     <Form.Label>Rating</Form.Label>
@@ -180,12 +180,12 @@ const ProductPage = () => {
                     Add
                   </Button>
                 </Form>
-              ) : (
+              ) : !userInfo ? (
                 <Message>
                   Please <Link to="/signin">Sign In</Link> to review the
                   product!
                 </Message>
-              )}
+              ) : null}
             </Col>
           </Row>
         </>

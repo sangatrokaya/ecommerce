@@ -5,8 +5,12 @@ import { apiSlice } from "./apiSlice";
 const productSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: () => ({
+      query: ({ keyword, pageNumber }) => ({
         url: PRODUCT_URL,
+        params: {
+          keyword,
+          pageNumber,
+        } /* /api/v1/products?pageNumber=2&keyword=phone */,
       }),
       providesTags: ["Product"] /* Assign Product tag to cache the data */,
       keepUnusedDataFor: 30,
@@ -35,13 +39,7 @@ const productSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: (result, error, arg) => {
-        console.log(
-          "Invalidating Product tag for ID: ",
-          arg._id
-        ); /* Log the ID being invalidate */
-        return [{ type: "Product", id: arg._id }];
-      },
+      invalidatesTags: ["Product"],
     }),
     uploadProductImage: builder.mutation({
       query: (data) => ({
