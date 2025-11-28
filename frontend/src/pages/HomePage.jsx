@@ -22,15 +22,33 @@ const HomePage = () => {
   // const products = useLoaderData();
 
   const { pageNumber, keyword } = useParams();
+
+  // Convert pageNumber to number, default to 1 if not provided
+  const currentPage = Number(pageNumber) || 1;
+
   const { data, isLoading, error } = useGetProductsQuery({
-    pageNumber,
+    pageNumber: currentPage,
     keyword,
   });
-  console.log(error);
+  console.log("Current Page:", currentPage, "keyword:", keyword);
+  console.log("Query result:", { data, isLoading, error });
+
+  console.log(
+    "RTK Query - data:",
+    data,
+    "isLoading:",
+    isLoading,
+    "error:",
+    error
+  );
   return (
     <>
-      <ProductCarousel />
-      <h1>Latest Products</h1>
+      {!keyword && <ProductCarousel />}
+      {keyword ? (
+        <h2>Search Results for {keyword}</h2>
+      ) : (
+        <h2>Latest Products</h2>
+      )}
       {isLoading ? (
         <h1>Loading...</h1>
       ) : error ? (
@@ -44,17 +62,21 @@ const HomePage = () => {
               </Col>
             ))}
           </Row>
-          <Paginate page={data.page} pages={data.pages} />
+          <Paginate
+            page={data.page}
+            pages={data.pages}
+            keyword={keyword || ""}
+          />
         </>
       )}
     </>
   );
 };
 
-export const dataLoader = async () => {
-  let resp = await fetch("/api/v1/products");
-  let data = await resp.json();
-  return data;
-};
+// export const dataLoader = async () => {
+//   let resp = await fetch("/api/v1/products");
+//   let data = await resp.json();
+//   return data;
+// };
 
 export default HomePage;

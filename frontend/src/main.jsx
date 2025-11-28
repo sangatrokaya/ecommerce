@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ProductPage from "./pages/ProductPage.jsx";
-import { dataLoader } from "./pages/HomePage.jsx";
+// import { dataLoader } from "./pages/HomePage.jsx";
 import CartPage from "./pages/CartPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import { store } from "./store.js";
@@ -25,6 +25,7 @@ import OrdersPage from "./pages/admin/OrdersPage.jsx";
 import ProductsListPage from "./pages/admin/ProductsListPage.jsx";
 import UserListPage from "./pages/admin/UserListPage.jsx";
 import ProductEditPage from "./pages/admin/ProductEditPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
 
 /* // Setting up react routes
 const router = createBrowserRouter([
@@ -56,20 +57,27 @@ const router = createBrowserRouter([
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="" element={<HomePage />} loader={dataLoader} />
+      <Route path="" element={<HomePage />} /* loader={dataLoader} */ />
       <Route
         path="search/:keyword"
         element={<HomePage />}
-        loader={dataLoader}
+        /* loader={dataLoader} */
+      />
+      <Route
+        path="search/:keyword/page/:pageNumber"
+        element={<HomePage />}
+        /* loader={dataLoader} */
       />
       <Route
         path="page/:pageNumber"
         element={<HomePage />}
-        loader={dataLoader}
+        /* loader={dataLoader} */
       />
       <Route path="product/:id" element={<ProductPage />} />
       <Route path="cart" element={<CartPage />} />
       <Route path="signin" element={<LoginPage />} />
+      <Route path="signup" element={<RegisterPage />} />
+
       <Route path="" element={<PrivateRoute />}>
         <Route path="shipping" element={<ShippingPage />} />
         <Route path="profile" element={<ProfilePage />} />

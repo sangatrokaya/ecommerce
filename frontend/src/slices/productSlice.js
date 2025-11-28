@@ -5,13 +5,23 @@ import { apiSlice } from "./apiSlice";
 const productSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: ({ keyword, pageNumber }) => ({
-        url: PRODUCT_URL,
-        params: {
-          keyword,
-          pageNumber,
-        } /* /api/v1/products?pageNumber=2&keyword=phone */,
-      }),
+      query: ({ keyword, pageNumber }) => {
+        const params = {}; /* Build params object conditionally */
+
+        params.pageNumber =
+          pageNumber ||
+          1; /* Always include pageNumber, default to 1 if not provided */
+
+        // Only include keyword if it exists and is not empty
+        if (keyword && keyword.trim() !== "") {
+          params.keyword = keyword;
+        }
+
+        return {
+          url: PRODUCT_URL,
+          params,
+        };
+      },
       providesTags: ["Product"] /* Assign Product tag to cache the data */,
       keepUnusedDataFor: 30,
     }),

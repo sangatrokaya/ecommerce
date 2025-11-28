@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import FormContainer from "../components/FormContainer";
-import { Card, FormGroup, Form, Button, Row, Col } from "react-bootstrap";
+import {
+  Card,
+  FormGroup,
+  Form,
+  Button,
+  Row,
+  Col,
+  Spinner,
+} from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation, useSignupMutation } from "../slices/userApiSlice";
 import { toast } from "react-toastify";
@@ -13,7 +21,10 @@ const LoginPage = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [login, { isLoading }] = useLoginMutation();
+
+  const [login, { isLoading: isLoggingIn }] = useLoginMutation();
+  const [signUp, { isLoading: isSigningUp }] = useSignupMutation();
+
   const { search } = useLocation();
   const searchParam = new URLSearchParams(search);
   const redirect = searchParam.get("redirect") || "/";
@@ -31,7 +42,6 @@ const LoginPage = () => {
       dispatch(setCredentials(resp.user));
       toast.success(resp.message);
     } catch (err) {
-      // console.log(err);
       toast.error(
         err?.data?.error || err?.error || "Invalid Email or Password!"
       );
@@ -65,14 +75,33 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
               ></Form.Control>
             </FormGroup>
-            <Button type="submit" variant="primary" className="w-100 mt-2">
-              Sign In
+            <Button
+              type="submit"
+              variant="primary"
+              className="w-100 mt-2"
+              disabled={isLoggingIn}
+            >
+              {isLoggingIn ? (
+                <>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    className="me-2"
+                  />
+                  Signing In...
+                </>
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </Form>
           <Row className="py-3 text-center">
             <Col>
               New Customer?{" "}
-              <Link to="/register" className="text-decoration-none">
+              <Link to="/signUp" className="text-decoration-none">
                 Register
               </Link>
             </Col>
