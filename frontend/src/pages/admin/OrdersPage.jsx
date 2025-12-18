@@ -131,7 +131,7 @@ const OrdersPage = () => {
                     borderBottom: "1px solid #dee2e6",
                   }}
                 >
-                  {order.user.name}
+                  {order.user?.name || "Unknown User"}
                 </td>
                 <td
                   style={{
