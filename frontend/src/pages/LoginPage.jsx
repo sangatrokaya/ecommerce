@@ -10,7 +10,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useLoginMutation, useSignupMutation } from "../slices/userApiSlice";
+import { useLoginMutation } from "../slices/userApiSlice";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../slices/authSlice";
@@ -22,8 +22,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [login, { isLoading: isLoggingIn }] = useLoginMutation();
-  const [signUp, { isLoading: isSigningUp }] = useSignupMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const { search } = useLocation();
   const searchParam = new URLSearchParams(search);
@@ -79,9 +78,9 @@ const LoginPage = () => {
               type="submit"
               variant="primary"
               className="w-100 mt-2"
-              disabled={isLoggingIn}
+              disabled={isLoading}
             >
-              {isLoggingIn ? (
+              {isLoading ? (
                 <>
                   <Spinner
                     as="span"
