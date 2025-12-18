@@ -26,6 +26,7 @@ import ProductsListPage from "./pages/admin/ProductsListPage.jsx";
 import UserListPage from "./pages/admin/UserListPage.jsx";
 import ProductEditPage from "./pages/admin/ProductEditPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
+import { HelmetProvider } from "react-helmet-async";
 
 /* // Setting up react routes
 const router = createBrowserRouter([
@@ -99,7 +100,9 @@ const router = createBrowserRouter(
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-  </Provider>
+  <HelmetProvider>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </HelmetProvider>
 );

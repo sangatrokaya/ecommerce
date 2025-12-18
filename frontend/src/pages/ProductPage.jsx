@@ -20,6 +20,7 @@ import {
 } from "../slices/productSlice";
 import Message from "../components/Message";
 import { toast } from "react-toastify";
+import Meta from "../components/Meta";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -67,6 +68,7 @@ const ProductPage = () => {
         <Message variant="danger">{error?.data?.error || error.error}</Message>
       ) : (
         <>
+          <Meta title={product.name} description={product.description} />
           <Link to="/" className="text-decoration-none">
             <IoArrowBackCircleOutline size={20} color="black" />
             <span className="text-dark">Back</span>
