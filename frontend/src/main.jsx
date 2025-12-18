@@ -61,17 +61,17 @@ const router = createBrowserRouter(
       <Route
         path="search/:keyword"
         element={<HomePage />}
-        /* loader={dataLoader} */
+        // loader={dataLoader}
       />
       <Route
         path="search/:keyword/page/:pageNumber"
         element={<HomePage />}
-        /* loader={dataLoader} */
+        // loader={dataLoader}
       />
       <Route
         path="page/:pageNumber"
         element={<HomePage />}
-        /* loader={dataLoader} */
+        // loader={dataLoader}
       />
       <Route path="product/:id" element={<ProductPage />} />
       <Route path="cart" element={<CartPage />} />

@@ -6,21 +6,22 @@ import apiError from "../utils/apiError.util.js";
 // @route /api/v1/products?pageNumber=3
 // @access public
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 1;
-  const page = Number(req.query.pageNumber) || 1;
+  const pageSize = 4;
+  const page = Number(req.query.pageNumber) || 6;
+
   let keyword = req.query.keyword;
   keyword = keyword
     ? {
         $or: [
           {
             name: {
-              $regex: keyword,
+              $regex: req.query.keyword,
               $options: "i",
             },
           },
           {
             description: {
-              $regex: keyword,
+              $regex: req.query.keyword,
               $options: "i",
             },
           },

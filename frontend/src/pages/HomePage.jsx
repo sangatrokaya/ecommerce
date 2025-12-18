@@ -65,7 +65,7 @@ const HomePage = () => {
           <Paginate
             page={data.page}
             pages={data.pages}
-            keyword={keyword || ""}
+            keyword={keyword ? keyword : ""}
           />
         </>
       )}
