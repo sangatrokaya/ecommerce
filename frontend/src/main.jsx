@@ -19,7 +19,7 @@ import ShippingPage from "./pages/ShippingPage.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import PlaceOrderPage from "./pages/PlaceOrderPage.jsx";
-import OrderPage from "./pages/Orderpage.jsx";
+import OrderPage from "./pages/OrderPage.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
 import OrdersPage from "./pages/admin/OrdersPage.jsx";
 import ProductsListPage from "./pages/admin/ProductsListPage.jsx";
